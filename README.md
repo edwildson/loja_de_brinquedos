@@ -5,6 +5,7 @@ Backend Django para gestão de clientes e vendas de uma loja de brinquedos, impl
 ## 🚀 Sumário
 - [Visão geral](#visão-geral)
 - [Arquitetura](#arquitetura)
+- [Diagramas da Aplicação](#diagramas-da-aplicação)
 - [Tecnologias](#tecnologias)
 - [Como rodar o projeto](#como-rodar-o-projeto)
 - [Documentação da API](#documentação-da-api)
@@ -50,6 +51,91 @@ API RESTful completa para cadastro, edição, listagem e deleção de clientes e
 ├── tests_curls.md        # Roteiro de testes
 └── README.md             # Este arquivo
 ```
+
+---
+
+## 📊 Diagramas da Aplicação
+
+A aplicação possui uma documentação visual completa através de diagramas que facilitam o entendimento da arquitetura e fluxos do sistema.
+
+### 🎯 Diagramas Disponíveis
+
+#### **1. Clean Architecture** ([Ver diagrama](./docs/diagramas/clean-architecture.md))
+- **Arquitetura geral** da aplicação
+- **Fluxo de dados** entre camadas
+- **Benefícios** da Clean Architecture
+- **Separação de responsabilidades**
+
+#### **2. Domain Model** ([Ver diagrama](./docs/diagramas/domain-model.md))
+- **Entidades** do domínio (Cliente, Venda)
+- **Contratos** de repositório
+- **Regras de negócio**
+- **Relacionamentos** entre entidades
+
+#### **3. Use Cases** ([Ver diagrama](./docs/diagramas/use-cases.md))
+- **Casos de uso** principais
+- **Atores** do sistema
+- **Fluxos** detalhados
+- **Regras de validação**
+
+#### **4. Sequence Diagram** ([Ver diagrama](./docs/diagramas/sequence-diagram.md))
+- **Fluxos de sequência** típicos
+- **Interação** entre componentes
+- **Fluxos de erro**
+- **Autenticação JWT**
+
+#### **5. Deployment** ([Ver diagrama](./docs/diagramas/deployment.md))
+- **Infraestrutura Docker**
+- **Configuração de rede**
+- **Volumes e persistência**
+- **Segurança e escalabilidade**
+
+### 🔧 Como Usar os Diagramas
+
+#### **Para Desenvolvedores**
+- Entender a **arquitetura** do sistema
+- Compreender **fluxos** de dados
+- Identificar **pontos de extensão**
+- Planejar **novas funcionalidades**
+
+#### **Para Arquitetos**
+- Avaliar **qualidade** da arquitetura
+- Identificar **acoplamentos**
+- Sugerir **melhorias**
+- Documentar **decisões**
+
+#### **Para Stakeholders**
+- Visualizar **funcionalidades**
+- Entender **complexidade**
+- Planejar **recursos**
+- Comunicar **requisitos**
+
+### 📝 Tecnologias dos Diagramas
+
+- **Mermaid**: Linguagem de diagramação
+- **Markdown**: Formato de documentação
+- **GitHub**: Renderização automática
+- **VS Code**: Extensão Mermaid
+
+### 🎨 Convenções Visuais
+
+#### **Cores**
+- 🟢 **Verde**: Sucesso, validação
+- 🔴 **Vermelho**: Erro, rejeição
+- 🔵 **Azul**: Processamento, fluxo
+- 🟡 **Amarelo**: Aviso, atenção
+
+#### **Símbolos**
+- ✅ **Check**: Implementado
+- 🔄 **Loop**: Processo repetitivo
+- ⚡ **Lightning**: Operação rápida
+- 🔒 **Lock**: Segurança, autenticação
+
+### 📚 Recursos Adicionais
+
+- **Documentação completa**: [docs/diagramas/README.md](./docs/diagramas/README.md)
+- **Mermaid Live Editor**: [mermaid.live](https://mermaid.live/)
+- **Extensão VS Code**: Mermaid Preview
 
 ---
 
@@ -113,8 +199,8 @@ netstat -tulpn | grep :5432
 
 1. **Clone o repositório:**
    ```bash
-   git clone <repo-url>
-   cd loja_brinquedos
+   git clone git@github.com:edwildson/loja_de_brinquedos.git
+   cd loja_de_brinquedos
    ```
 
 2. **Crie o arquivo `.env` na raiz:**
@@ -135,18 +221,22 @@ netstat -tulpn | grep :5432
    docker-compose up -d
    ```
 
-4. **Aplique as migrations:**
+4. **Colete os arquivos estáticos:**
+   ```bash
+   docker compose exec app poetry run python manage.py collectstatic
+   ```
+
+5. **Aplique as migrations:**
    ```bash
    docker-compose exec app poetry run python manage.py migrate
    ```
 
-5. **Crie um superusuário:**
+6. **Crie um superusuário:**
    ```bash
    docker-compose exec app poetry run python manage.py createsuperuser
    ```
 
-6. **Acesse a API:**
-   - **API:** [http://localhost:8000/api/](http://localhost:8000/api/)
+7. **Acesse a API:**
    - **Admin:** [http://localhost:8000/admin/](http://localhost:8000/admin/)
    - **Documentação:** [http://localhost:8000/api/docs/](http://localhost:8000/api/docs/)
 
@@ -211,69 +301,65 @@ O projeto possui uma suíte completa de testes automatizados organizados por cam
 
 #### **Executar todos os testes:**
 ```bash
-# Com Poetry
-poetry run pytest --ds=loja_brinquedos.test_settings -v
-
-# Com Docker
 docker-compose exec app poetry run pytest --ds=loja_brinquedos.test_settings -v
 ```
 
 #### **Executar testes por camada:**
 ```bash
 # Testes de Domain (Entidades)
-poetry run pytest tests/domain/ --ds=loja_brinquedos.test_settings -v
+docker-compose exec app poetry run pytest tests/domain/ --ds=loja_brinquedos.test_settings -v
 
 # Testes de Application (Use Cases)
-poetry run pytest tests/application/ --ds=loja_brinquedos.test_settings -v
+docker-compose exec app poetry run pytest tests/application/ --ds=loja_brinquedos.test_settings -v
 
 # Testes de Infrastructure (Repositories)
-poetry run pytest tests/infra/ --ds=loja_brinquedos.test_settings -v
+docker-compose exec app poetry run pytest tests/infra/ --ds=loja_brinquedos.test_settings -v
 
 # Testes de Interface Adapters (Views)
-poetry run pytest tests/interface_adapters/ --ds=loja_brinquedos.test_settings -v
+docker-compose exec app poetry run pytest tests/interface_adapters/ --ds=loja_brinquedos.test_settings -v
 
 # Testes de Integração
-poetry run pytest tests/integration/ --ds=loja_brinquedos.test_settings -v
+docker-compose exec app poetry run pytest tests/integration/ --ds=loja_brinquedos.test_settings -v
 ```
 
 #### **Executar testes específicos:**
 ```bash
 # Teste específico
-poetry run pytest tests/domain/test_entities.py::TestCliente::test_criar_cliente_valido -v
+docker-compose exec app poetry run pytest tests/domain/test_entities.py::TestCliente::test_criar_cliente_valido -v
 
 # Teste com debug
-poetry run pytest tests/interface_adapters/test_views.py::TestVendaViewSet::test_criar_venda_valida -v -s
+docker-compose exec app poetry run pytest tests/interface_adapters/test_views.py::TestVendaViewSet::test_criar_venda_valida -v -s
 ```
 
 ### Coverage (Cobertura de Código)
 
 #### **Instalar dependência de coverage:**
 ```bash
-poetry add pytest-cov --group dev
+docker-compose exec app poetry add pytest-cov --group dev
 ```
 
 #### **Executar coverage:**
 ```bash
 # Coverage completo
-poetry run pytest --ds=loja_brinquedos.test_settings --cov=. --cov-report=term-missing
+docker-compose exec app poetry run pytest --ds=loja_brinquedos.test_settings --cov=. --cov-report=term-missing
 
 # Coverage por camada
-poetry run pytest --ds=loja_brinquedos.test_settings --cov=application --cov=domain --cov=infra --cov=interface_adapters --cov-report=term-missing
+docker-compose exec app poetry run pytest --ds=loja_brinquedos.test_settings --cov=application --cov=domain --cov=infra --cov=interface_adapters --cov-report=term-missing
 
 # Coverage com relatório HTML
-poetry run pytest --ds=loja_brinquedos.test_settings --cov=. --cov-report=html --cov-report=term-missing
+docker-compose exec app poetry run pytest --ds=loja_brinquedos.test_settings --cov=. --cov-report=html --cov-report=term-missing
 ```
 
 #### **Usando coverage diretamente:**
 ```bash
 # Executar testes com coverage
-python -m coverage run --source=application,domain,infra,interface_adapters -m pytest --ds=loja_brinquedos.test_settings
+docker-compose exec app python -m coverage run --source=application,domain,infra,interface_adapters -m pytest --ds=loja_brinquedos.test_settings
 
 # Gerar relatório
-python -m coverage report --show-missing
+docker-compose exec app python -m coverage report --show-missing
 
 # Gerar relatório HTML
-python -m coverage html
+docker-compose exec app python -m coverage html
 ```
 
 #### **Configuração do Coverage (.coveragerc):**
@@ -330,33 +416,23 @@ tests/
 - Filtros e listagens
 - Tempo de resposta
 
-### Coverage Atual
-
-Com base nos **96 testes que passam**, o coverage estimado é:
-
-- **Domain Layer:** ~95% (entidades bem testadas)
-- **Application Layer:** ~90% (use cases testados)
-- **Infrastructure Layer:** ~90% (repositories testados)
-- **Interface Adapters:** ~85% (views e serializers testados)
-- **Total:** ~85-90%
-
 ### Comandos Úteis para Testes
 
 ```bash
 # Executar testes com verbose
-poetry run pytest --ds=loja_brinquedos.test_settings -v
+docker-compose exec app poetry run pytest --ds=loja_brinquedos.test_settings -v
 
 # Executar testes com stop on first failure
-poetry run pytest --ds=loja_brinquedos.test_settings -x
+docker-compose exec app poetry run pytest --ds=loja_brinquedos.test_settings -x
 
 # Executar testes com maxfail
-poetry run pytest --ds=loja_brinquedos.test_settings --maxfail=3
+docker-compose exec app poetry run pytest --ds=loja_brinquedos.test_settings --maxfail=3
 
 # Executar testes com coverage e mostrar linhas faltantes
-poetry run pytest --ds=loja_brinquedos.test_settings --cov=. --cov-report=term-missing
+docker-compose exec app poetry run pytest --ds=loja_brinquedos.test_settings --cov=. --cov-report=term-missing
 
 # Executar testes específicos com coverage
-poetry run pytest tests/application/ --ds=loja_brinquedos.test_settings --cov=application --cov-report=term-missing
+docker-compose exec app poetry run pytest tests/application/ --ds=loja_brinquedos.test_settings --cov=application --cov-report=term-missing
 ```
 
 ### Testes Manuais
@@ -433,10 +509,6 @@ docker-compose exec app poetry run python manage.py migrate
 - **Tabela clientes:** Armazena dados dos clientes
 - **Tabela sales:** Armazena dados das vendas (renomeada de 'vendas')
 
-### Logs
-- **Arquivo:** `app.log` (na raiz do projeto)
-- **Console:** Logs também são exibidos no console do container
-
 ---
 
 ## 📝 Observações
@@ -452,7 +524,6 @@ docker-compose exec app poetry run python manage.py migrate
 ### Dicas
 - Sempre que adicionar dependências, rode `docker-compose build app`
 - Use a documentação Swagger para testar endpoints
-- Verifique os logs em `app.log` para debug
 - O arquivo `.env` não é versionado (segurança)
 
 ---

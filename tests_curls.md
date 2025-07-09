@@ -105,9 +105,9 @@ curl -X POST http://localhost:8000/api/vendas/ \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <access_token>" \
   -d '{
-    "cliente": 1,
+    "cliente_id": 1,
     "data": "2024-06-01",
-    "valor": 200.00
+    "valor": "200.00"
   }'
 ```
 
@@ -117,9 +117,9 @@ curl -X POST http://localhost:8000/api/vendas/ \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <access_token>" \
   -d '{
-    "cliente": 2,
+    "cliente_id": 2,
     "data": "2024-06-02",
-    "valor": 150.00
+    "valor": "150.00"
   }'
 ```
 
@@ -141,9 +141,9 @@ curl -X PUT http://localhost:8000/api/vendas/1/ \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <access_token>" \
   -d '{
-    "cliente": 1,
+    "cliente_id": 1,
     "data": "2024-06-15",
-    "valor": 250.00
+    "valor": "250.00"
   }'
 ```
 
@@ -153,7 +153,7 @@ curl -X PATCH http://localhost:8000/api/vendas/1/ \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <access_token>" \
   -d '{
-    "valor": 300.00
+    "valor": "300.00"
   }'
 ```
 
